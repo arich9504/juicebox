@@ -185,6 +185,15 @@ async function getPostById(postId) {
       WHERE id=$1;
     `, [postId]);
 
+    // THIS IS NEW
+    if (!post) {
+      throw {
+        name: "PostNotFoundError",
+        message: "Could not find a post with that postId"
+      };
+    }
+    // NEWNESS ENDS HERE
+
     const { rows: tags } = await client.query(`
       SELECT tags.*
       FROM tags
@@ -337,6 +346,8 @@ async function getUserByUsername(username) {
 }
 
 
+
+
 module.exports = {  
   client,
   createUser,
@@ -352,7 +363,8 @@ module.exports = {
   getAllTags,
   createPostTag,
   addTagsToPost,
-  getUserByUsername
+  getUserByUsername,
+  getPostById
 }
 
 

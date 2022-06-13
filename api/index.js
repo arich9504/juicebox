@@ -34,6 +34,14 @@ apiRouter.use(async (req, res, next) => {
   }
 });
 
+apiRouter.use((req, res, next) => {
+    if (req.user) {
+      console.log("User is set:", req.user);
+    }
+  
+    next();
+  });
+
 // Attach routers below here
 const tagsRouter = require('./tags');
 apiRouter.use('/tags', tagsRouter);
@@ -41,7 +49,7 @@ apiRouter.use('/tags', tagsRouter);
 const postsRouter = require('./posts');
 apiRouter.use('/posts', postsRouter);
 
-const usersRouter = require('./users');
+const {usersRouter, userId} = require('./users');
 apiRouter.use('/users', usersRouter);
 
 
